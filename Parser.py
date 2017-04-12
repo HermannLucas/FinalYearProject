@@ -1,5 +1,5 @@
 import argparse
-import socket
+from Core import Starter
 
 parser = argparse.ArgumentParser(description = "Start the package manager on this machine.")
 
@@ -10,22 +10,19 @@ parser.add_argument("-ns", "--nameService", nargs = 1,  help = "To use a differe
 
 args = parser.parse_args()
 
+init_args = {}
 if args.type == "head":
-    print("Starting as Head.")
+    init_args["type"] = "Head"
 else:
-    print("Starting as client.")
+    init_args["type"] = "Client"
 
 if args.config:
-    print("You want to use this file : {}".format(args.config))
+    init_args["config"] = args.config
 
 if args.name:
-    my_name = args.name
-else:
-    my_name = socket.gethostname()
+    init_args["name"] = args.name
 
 if args.nameService:
-    ns = args.nameService
-else:
-    pass
-    
-print(my_name)
+    init_args["nameservice"] = args.nameService
+
+Starter(init_args)
