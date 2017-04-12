@@ -32,7 +32,7 @@ class Manager:
             print("Loading plugin " + i["name"])
             plugin = self.pluginmanager.loadPlugin(i).run() 
             self.module_list[plugin.name] = plugin
-        self.set_status("Wainting")
+        self.set_status("Waiting")
     
     def execute_order(self, order):
         order.execute()

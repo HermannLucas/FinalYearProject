@@ -4,7 +4,7 @@ from Core import SingletonDecorator
 from Head import Order_director
 from Client.Module_manager import Manager
 
-class HeadTestCase(unittest.TestCase):
+class Head_test_case(unittest.TestCase):
     def setUp(self):
         self.order_director = SingletonDecorator(Order_director)
         self.ord_dir = self.order_director()
@@ -59,35 +59,30 @@ class Cluster_test_case(unittest.TestCase):
     def tearDown(self):
         del self.ord_dir
         del self.order_director
+    
+class Core_test_case(unittest.TestCase):
+    def setUp(self):
+        self.module_manager = SingletonDecorator(Manager)
+        self.mod_man = self.module_manager()
+    
+    def test_is_singleton(self):
+        self.assertIs(self.mod_man, self.module_manager())
+    
+    def test_status(self):
+        self.assertEqual(self.mod_man.get_status(), "Waiting")
+    
+    def test_get_status(self):
+        status = "Test"
+        self.mod_man.set_status(status)
+        self.assertEqual(self.mod_man.get_status(), status)
+    
+    def tearDown(self):
+        del self.mod_man
+        del self.module_manager
 
 if __name__ == '__main__':
     unittest.main()
 
-#mod_man = SingletonDecorator(Manager)
-#cluster = odr_dir.get_cluster("test")
-#odr_dir.set_client("Fake",  "Fake ref")
-#for i in range(0, 10) :
-#    client = odr_dir.set_client("client{}".format(i), "client{} ref".format(i))
-#    cluster.add_client(client.name, client)
-#for client in cluster.client_list:
-#    print(client)
-#
-#for client in odr_dir.client_list:
-#    print("Client {} is the object : {}.".format(client, odr_dir.client_list[client]))
-#cluster = odr_dir.get_cluster("test")
-#cluster2 = odr_dir.set_cluster("Fun")
-#for i in range(1, 6):
-#    client = odr_dir.set_client("Fun man{}".format(i), "Funny dick reference {}".format(i))
-#    cluster2.add_client(client.name, client)
-#for clus in odr_dir.cluster_list:
-#    print("Clients in the cluster {}".format(clus))
-#    clusty = odr_dir.get_cluster(clus)
-#    for client in clusty.client_list:
-#        print("\t Client {} is the object : {}.".format(client, clusty.client_list[client]))
-#odr_dir.send("Fake",  "fake order")
-#odr_dir.send_to_cluster("test", "fake cluster order")
-#
-#
 #print("\n \n Starting test of the module manager.")
 #mod_man = Manager()
 #for module in mod_man.module_list:
