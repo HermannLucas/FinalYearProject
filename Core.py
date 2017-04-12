@@ -1,3 +1,7 @@
+import socket
+from Head import Order_director
+from Client.Module_manager import Manager
+
 class SingletonDecorator:
     def __init__(self, klass):
         self.klass = klass
@@ -12,9 +16,28 @@ class Order:
         pass
 
 class Starter:
-    def __init__(self, *args):
+    def __init__(self, args):
+        self.type = "Client"
+        if args["Head"]:
+            self.order_director = SingletonDecorator(Order_director)
+            self.ord_dir = self.order_director()
+            self.type = "Head"
+        
+        self.module_manager = SingletonDecorator(Manager)
+        self.mod_man = self.module_manager()
+        
         if "name" in args:
             self.name = args["name"]
         else:
-            self.name = socket.gethotsname
+            self.name = socket.gethostname()
+        
+        if "config" in args:
+            self.config_path = args["config"]
+        else:
+            self.config_path = "Path"
+        
+        if "nameservice" in args:
+            self.nameservice = args["nameservice"]
+        else:
+            self.nameservice = "Nameservice"
         
