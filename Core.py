@@ -22,7 +22,7 @@ class Starter:
         if args["Head"]:
             self.order_director = SingletonDecorator(Order_director)
             self.ord_dir = self.order_director()
-            self.type = "Head"
+            self.head = True
         
         self.module_manager = SingletonDecorator(Manager)
         self.mod_man = self.module_manager()

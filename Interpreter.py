@@ -10,11 +10,28 @@ class Prompter(Cmd):
     prompt = "->"
     
     def do_connect_client(self, args):
+        "Connects a new client to this head (<client_name> <client_reference>"
         args = args.split()
         if len(args) != 2:
             print("*** invalid number of arguments")
             return
         self.core.ord_dir.set_client(args[0], args[1])
+    
+    def do_create_cluster(self, args):
+        "Create a new cluster (<clster_name>)"
+        args = args.split()
+        if len(args) != 1:
+            print ("*** invalid number of arguments")
+            return
+        self.core.ord_dir.set_cluster(args[0])
+    
+    def do_add_client_to_cluster(self, args):
+        "Add the selected client to the selected cluster (<cluster> <client>)"
+        args = args.split()
+        if len(args) != 2:
+            print("*** Invalid number of arguments")
+            return
+        self.core.ord_dir.add_client_in_cluster(args[0], args[1])
     
     def do_list_modules(self, arg):
         "List installed modules."
