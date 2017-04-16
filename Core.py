@@ -1,4 +1,5 @@
 import socket
+from Interpreter import Prompter
 from Head import Order_director
 from Client.Module_manager import Manager
 
@@ -40,4 +41,8 @@ class Starter:
             self.nameservice = args["nameservice"]
         else:
             self.nameservice = "Nameservice"
+        
+        if args["Shell"]:
+            interpreter = Prompter(self)
+            interpreter.cmdloop()
         

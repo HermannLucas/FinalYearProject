@@ -60,6 +60,15 @@ class Order_director:
     def send_to_cluster(self, cluster_name, order):
         if cluster_name in self.cluster_list:
             self.cluster_list[cluster_name].send(order)
+    
+    def get_client_status(self, client_name):
+        if client_name in self.client_list:
+            print(self.client_list[client_name].get_status())
+    
+    def get_cluster_status(self, cluster_name):
+        if cluster_name in self.luster_list:
+            for client in self.cluster_list[cluster_name].client_list:
+                print(client.get_status())
 
 class Cluster:
     def __init__(self, name):
