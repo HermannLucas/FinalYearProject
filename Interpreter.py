@@ -50,7 +50,8 @@ class Prompter(Cmd):
     def do_list_cluster_clients(self, arg):
         "List all the clients in the selected cluster."
         if arg in self.core.ord_dir.cluster_list:
-            self.core.ord_dir.list_client_in_cluster(arg)
+            for client in self.core.ord_dir.list_client_in_cluster(arg):
+                print(client.name)
     
     def do_get_client_status(self, arg):
         "Get the status of the selected client(s). If no client's name is inputed, display all the connected client(s) status."
