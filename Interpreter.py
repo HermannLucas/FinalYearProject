@@ -4,11 +4,17 @@ class Prompter(Cmd):
     
     def __init__(self, core):
         self.core = core
-        print(self.core)
         super(Prompter, self).__init__()
 
     intro = "Welcome to my shell.       Type help or ? to list commands.\n"
     prompt = "->"
+    
+    def do_connect_client(self, args):
+        args = args.split()
+        if len(args) != 2:
+            print("*** invalid number of arguments")
+            return
+        self.core.ord_dir.set_client(args[0], args[1])
     
     def do_list_modules(self, arg):
         "List installed modules."
