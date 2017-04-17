@@ -2,6 +2,7 @@ import socket
 from Interpreter import Prompter
 from Head import Order_director
 from Client.Module_manager import Manager
+from Client.Serv import Nameserv_putter
 
 class SingletonDecorator:
     def __init__(self, klass):
@@ -26,6 +27,8 @@ class Starter:
         
         self.module_manager = SingletonDecorator(Manager)
         self.mod_man = self.module_manager()
+        putter = Nameserv_putter(self.mod_man)
+        putter.run()
         
         if "name" in args:
             self.name = args["name"]
@@ -39,6 +42,7 @@ class Starter:
         
         if "nameservice" in args:
             self.nameservice = args["nameservice"]
+            
         else:
             self.nameservice = "Nameservice"
         
