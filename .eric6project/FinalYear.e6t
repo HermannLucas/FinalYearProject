@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project FinalYear -->
-<<<<<<< HEAD
-<!-- Saved: 2017-04-16, 23:29:30 -->
-=======
-<!-- Saved: 2017-04-12, 02:12:14 -->
->>>>>>> parent of 8a72507... Starter class finished need to implement CORBA to see if changes are needed.
+<!-- Saved: 2017-04-17, 16:26:43 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
 </Tasks>
