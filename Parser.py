@@ -1,31 +1,31 @@
 import argparse
-import socket
+from Core import Starter
 
 parser = argparse.ArgumentParser(description = "Start the package manager on this machine.")
 
-parser.add_argument("-t", "--type", choices = ["head", "client"], required = True, help = "Starts either as Head or Client")
-parser.add_argument("-c", "--config", nargs = 1, help = "Start using a precise configuration file", metavar = "Path to config file")
+parser.add_argument("-H", "--head", default = False, help = "Starts as Head", action = "store_true")
+parser.add_argument("-c", "--config", nargs = 1, help = "Start using a precise configuration file", metavar = "Config file")
 parser.add_argument("-n", "--name", nargs = 1, help = "Specify the name of this machine", metavar = "Client name")
-parser.add_argument("-ns", "--nameService", nargs = 1,  help = "To use a different NameService than the one in the configuration file.", metavar = "Nameservice addresse")
+parser.add_argument("-ns", "--nameService", nargs = 1,  help = "To use a different NameService than the one in the configuration file.", metavar = "Nameservice")
+parser.add_argument("-s",  "--shell", default = False, help = "Open up a shell to interact with the application.", action = "store_true")
 
 args = parser.parse_args()
 
-if args.type == "head":
-    print("Starting as Head.")
-else:
-    print("Starting as client.")
+init_args = {}
+init_args["Head"] = args.head
 
 if args.config:
-    print("You want to use this file : {}".format(args.config))
+    init_args["config"] = args.config
 
 if args.name:
-    my_name = args.name
-else:
-    my_name = socket.gethostname()
+    init_args["name"] = args.name
 
 if args.nameService:
-    ns = args.nameService
-else:
-    pass
-    
-print(my_name)
+    init_args["nameservice"] = args.nameService
+
+if args.shell:
+    init_args["Shell"] = args.shell
+
+start = Starter(init_args)
+
+print("type {}, config {}, name {}, nameservice {}.".format(start.type, start.config_path, start.name, start.nameservice))
