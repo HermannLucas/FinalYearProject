@@ -1,7 +1,9 @@
 import socket
+import Network_manager
 from Interpreter import Prompter
 from Head import Order_director
 from Client.Module_manager import Manager
+
 
 class SingletonDecorator:
     def __init__(self, klass):
@@ -22,6 +24,10 @@ class Starter:
         if args["Head"]:
             self.order_director = SingletonDecorator(Order_director)
             self.ord_dir = self.order_director()
+            self.serv = Network_manager.Server_manager()
+            print("serv created")
+            self.serv.start()
+            print ("serve started")
             self.head = True
         
         self.module_manager = SingletonDecorator(Manager)
@@ -47,3 +53,5 @@ class Starter:
             interpreter = Prompter(self)
             interpreter.cmdloop()
         
+        if args["connect"]:
+            self.clent = Network_manager.Client_manager(self.name)
