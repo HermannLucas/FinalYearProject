@@ -20,16 +20,18 @@ class Reciever_manager(Thread):
         conn, addr = self.s.accept()
         connexion = [conn, addr]
         while True:
-            data =conn.recv(1024)
+            data = conn.recv(1024)
             if not data:
                 break
             name = data.decode('utf-8')
             self.connexion_list[name] = connexion
+            print (self.connexion_list[name][0])
         print("Connected by {}".format(name))
         self.wait_connexion()
     
-    def diconnect(self):
-        pass
+    def disconnect(self, connexion):
+        if connexion in self.connexion_list:
+            self.connexion_list[connexion][0].close
     
     def run(self):
         self.start_listen()
@@ -41,7 +43,15 @@ class Sender_manager:
         self.PORT = 1050
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.connect((self.HOST, self.PORT))
-        byte = name.encode('utf-8')
-        self.s.send(byte)
+        self.send(name)
         print("Connected")
+    
+    def send(self, message):
+        if type(message) is str:
+            byte = message.encode('utf-8')
+        else :
+            byte = message.encode()
+        self.s.send(byte)
+    
+    def diconnect(self):
         self.s.close()

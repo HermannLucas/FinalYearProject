@@ -5,7 +5,7 @@ class Order_director:
     
     @property
     def conn_man(self):
-        return self.__con_man
+        return self.__conn_man
     
     @conn_man.setter
     def conn_man(self, conn_man):

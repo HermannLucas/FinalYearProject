@@ -27,6 +27,7 @@ class Starter:
             self.serv = Network_manager.Reciever_manager(self.ord_dir)
             self.serv.start()
             self.ord_dir.conn_man = self.serv
+            print(self.ord_dir.conn_man)
             self.head = True
         
         self.module_manager = SingletonDecorator(Manager)
