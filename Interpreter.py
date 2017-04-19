@@ -77,7 +77,6 @@ class Prompter(Cmd):
         "Exit the program."
         for connexion in self.core.ord_dir.conn_man.connexion_list:
             self.core.ord_dir.conn_man.disconnect(connexion)
-        self.core.ord_dir.conn_man.on = False
         print("Bye.")
         return True
     
