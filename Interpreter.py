@@ -74,9 +74,20 @@ class Prompter(Cmd):
     
     def do_exit(self, arg):
         "Exit the program."
-        self.core.server.shutdown()
+        self.server.shutdown()
         print("Bye.")
         return True
+    
+    def do_print(self, arg):
+        print(self.server.clients)
+    
+    def do_send(self, args):
+        args = args.split()
+        if len(args) != 2:
+            print("***Invalid number of arguments")
+            return        
+        if args[0] in self.server.clients:
+            self.server.send(self.server.clients[args[0]], args[1])
     
     
     

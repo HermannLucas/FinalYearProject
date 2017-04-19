@@ -5,11 +5,16 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
     
     def handle(self):
         data = str(self.request.recv(1024), 'ascii')
+        self.server.clients[data] = self.request
         response = bytes("Your name is {}".format(data), 'ascii')
         self.request.sendall(response)
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
-    pass
+    clients ={}
+    
+    def send(self, client, order):
+        with client:
+            client.sendall(bytes(order, 'ascii'))
 
 class Client:
     
@@ -17,8 +22,11 @@ class Client:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.connect((ip, port))
             sock.sendall(bytes(name, 'ascii'))
-            response = str(sock.recv(1024), 'ascii')
-            print("Recieved : {}".format(response))
+            while True:
+                response = str(sock.recv(1024), 'ascii')
+                if not response:
+                    continue
+                print("Recieved : {}".format(response))
     
     
     

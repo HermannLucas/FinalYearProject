@@ -26,7 +26,6 @@ class Starter:
             server_thread .daemon = True
             server_thread.start()
             ord_dir.server = server
-            print(self.ord_dir.conn_man)
         
         module_manager = SingletonDecorator(Manager)
         mod_man = module_manager()
@@ -48,7 +47,7 @@ class Starter:
             nameservice = "Nameservice"
         
         if args["Shell"]:
-            interpreter = Prompter(self)
+            interpreter = Prompter()
             interpreter.server = server
             interpreter.ord_dir = ord_dir
             interpreter.mod_man = mod_man
