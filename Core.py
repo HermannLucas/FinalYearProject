@@ -1,5 +1,6 @@
 import socket
-import Network_manager
+import threading
+from Network_manager import ThreadedTCPServer, ThreadedTCPRequestHandler, Client
 from Interpreter import Prompter
 from Head import Order_director
 from Client.Module_manager import Manager
@@ -14,44 +15,45 @@ class SingletonDecorator:
             self.instance = self.klass(*args, **kwargs)
         return self.instance
 
-class Order:
-    def execute(self):
-        pass
-
 class Starter:
     def __init__(self, args):
-        self.type = "Client"
+        HOST, PORT = "localhost", 1050
         if args["Head"]:
-            self.order_director = SingletonDecorator(Order_director)
-            self.ord_dir = self.order_director()
-            self.serv = Network_manager.Reciever_manager(self.ord_dir)
-            self.serv.start()
-            self.ord_dir.conn_man = self.serv
+            order_director = SingletonDecorator(Order_director)
+            ord_dir = order_director()
+            server = ThreadedTCPServer((HOST, PORT), ThreadedTCPRequestHandler)
+            server_thread = threading.Thread(target = server.serve_forever)
+            server_thread .daemon = True
+            server_thread.start()
+            ord_dir.server = server
             print(self.ord_dir.conn_man)
-            self.head = True
         
-        self.module_manager = SingletonDecorator(Manager)
-        self.mod_man = self.module_manager()
+        module_manager = SingletonDecorator(Manager)
+        mod_man = module_manager()
         
         if "name" in args:
-            self.name = args["name"]
+            name = args["name"]
         else:
-            self.name = socket.gethostname()
+            name = socket.gethostname()
         
         if "config" in args:
-            self.config_path = args["config"]
+            config_path = args["config"]
         else:
-            self.config_path = "Path"
+            config_path = "Path"
         
         if "nameservice" in args:
-            self.nameservice = args["nameservice"]
+            nameservice = args["nameservice"]
             
         else:
-            self.nameservice = "Nameservice"
+            nameservice = "Nameservice"
         
         if args["Shell"]:
             interpreter = Prompter(self)
+            interpreter.server = server
+            interpreter.ord_dir = ord_dir
+            interpreter.mod_man = mod_man
             interpreter.cmdloop()
         
         if args["connect"]:
-            self.clent = Network_manager.Sender_manager(self.name)
+            client = Client()
+            client.connect(HOST, PORT, name)
