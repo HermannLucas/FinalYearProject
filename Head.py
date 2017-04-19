@@ -3,6 +3,14 @@ class Order_director:
         self.cluster_list = {}
         self.client_list = {}
     
+    @property
+    def conn_man(self):
+        return self.__con_man
+    
+    @conn_man.setter
+    def conn_man(self, conn_man):
+        self.__conn_man = conn_man
+    
     def set_client(self, name, ref):
         if name not in self.client_list:
             client = Client(name, ref)

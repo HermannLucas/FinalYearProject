@@ -1,9 +1,10 @@
 import socket
 from threading import Thread
 
-class Server_manager(Thread):
-    def __init__(self):
-        super(Server_manager, self).__init__()
+class Reciever_manager(Thread):
+    def __init__(self, ord_dir):
+        super(Reciever_manager, self).__init__()
+        self.ord_dir = ord_dir
         self.connexion_list = {}
         self.HOST = ''
         self.PORT = 1050
@@ -34,7 +35,7 @@ class Server_manager(Thread):
         self.start_listen()
     
 
-class Client_manager:
+class Sender_manager:
     def __init__(self, name):
         self.HOST = 'localhost'
         self.PORT = 1050
