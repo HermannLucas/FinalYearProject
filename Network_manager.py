@@ -5,16 +5,17 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
     
     def handle(self):
         data = str(self.request.recv(1024), 'ascii')
-        self.server.clients[data] = self.request
-        response = bytes("Your name is {}".format(data), 'ascii')
+        self.server.clients[data] = self.client_address
+        response = bytes(self.server.name, 'ascii')
         self.request.sendall(response)
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     clients ={}
     
     def send(self, client, order):
-        with client:
-            client.sendall(bytes(order, 'ascii'))
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.connect((client))
+            sock.sendall(bytes(order, 'ascii'))
 
 class Client:
     
@@ -22,13 +23,20 @@ class Client:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.connect((ip, port))
             sock.sendall(bytes(name, 'ascii'))
-            while True:
-                response = str(sock.recv(1024), 'ascii')
-                if not response:
-                    continue
-                print("Recieved : {}".format(response))
+            response = str(sock.recv(1024), 'ascii')
+            print("Connected to : {}".format(response))
+            return sock.getsockname()
+
+    def listen(self, ip, port):
+        with socketserver.TCPServer((ip, port),  Client_TCP_handler) as server:
+            server.serve_forever()
     
+class Client_TCP_handler(socketserver.BaseRequestHandler):
     
+    def handle(self):
+        data = str(self.request.recv(1024), 'ascii')
+        print("Got contacted from {}.".format(self.client_address[0]))
+        print(data)
     
 #    def __init__(self, ord_dir):
 #        super(Reciever_manager, self).__init__()

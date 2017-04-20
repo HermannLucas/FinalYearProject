@@ -18,33 +18,41 @@ class SingletonDecorator:
 class Starter:
     def __init__(self, args):
         HOST, PORT = "localhost", 1050
+
+        if "name" in args:
+            self.name = args["name"]
+        else:
+            self.name = socket.gethostname()
+        
         if args["Head"]:
             order_director = SingletonDecorator(Order_director)
             ord_dir = order_director()
             server = ThreadedTCPServer((HOST, PORT), ThreadedTCPRequestHandler)
+            server.name = self.name
             server_thread = threading.Thread(target = server.serve_forever)
             server_thread .daemon = True
             server_thread.start()
             ord_dir.server = server
+        else:
+            client = Client()
+            conn = client.connect(HOST, PORT, self.name)
+            print(conn)
+            client.listen(conn[0], conn[1])
         
         module_manager = SingletonDecorator(Manager)
         mod_man = module_manager()
-        
-        if "name" in args:
-            name = args["name"]
-        else:
-            name = socket.gethostname()
+    
         
         if "config" in args:
-            config_path = args["config"]
+            self.config_path = args["config"]
         else:
-            config_path = "Path"
+            self.config_path = "Path"
         
         if "nameservice" in args:
-            nameservice = args["nameservice"]
+            self.nameservice = args["nameservice"]
             
         else:
-            nameservice = "Nameservice"
+            self.nameservice = "Nameservice"
         
         if args["Shell"]:
             interpreter = Prompter()
@@ -52,7 +60,3 @@ class Starter:
             interpreter.ord_dir = ord_dir
             interpreter.mod_man = mod_man
             interpreter.cmdloop()
-        
-        if args["connect"]:
-            client = Client()
-            client.connect(HOST, PORT, name)
