@@ -8,13 +8,12 @@ class Prompter(Cmd):
     intro = "Welcome to my shell.       Type help or ? to list commands.\n"
     prompt = "->"
     
-    def do_connect_client(self, args):
+    def do_connect_client(self, arg):
         "Connects a new client to this head (<client_name> <client_reference>"
-        args = args.split()
-        if len(args) != 2:
-            print("*** invalid number of arguments")
-            return
-        self.ord_dir.set_client(args[0], args[1])
+        if arg in self.server.clients:
+            client = self.server.clients[arg]
+            print(client)
+            self.ord_dir.set_client(arg, client)
     
     def do_create_cluster(self, args):
         "Create a new cluster (<clster_name>)"
@@ -39,7 +38,7 @@ class Prompter(Cmd):
     def do_list_clients(self, arg):
         "List all the client managed by this head."
         for client in self.ord_dir.client_list:
-            print(client)
+            print(self.ord_dir.client_list[client].name, self.ord_dir.client_list[client].ref)
     
     def do_list_cluster(self, arg):
         "List all the clusters managed by this head."
