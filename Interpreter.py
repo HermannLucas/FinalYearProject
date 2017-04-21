@@ -85,10 +85,16 @@ class Prompter(Cmd):
         if len(args) != 2:
             print("***Invalid number of arguments")
             return        
-        if args[0] in self.server.clients:
-            self.server.send(self.server.clients[args[0]], args[1])
+        if args[0] in self.ord_dir.client_list:
+            self.ord_dir.send(args[0], args[1])
     
-    
+    def do_send_cluster(self, args):
+        args = args.split()
+        if len(args) != 2:
+            print("***Invalid number of arguments")
+            return
+        if args[0] in self.ord_dir.cluster_list:
+            self.ord_dir.send_to_cluster(args[0], args[1])
     
 #        arg = arg.split(' ')
 #        for element in arg:

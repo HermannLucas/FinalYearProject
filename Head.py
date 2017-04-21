@@ -55,12 +55,20 @@ class Order_director:
     
     def send(self, client_name, order):
         for client in self.client_list:
-            if client_name == self.client_list[client].name:
-                print("Sending to : " + self.client_list[client].ref + " order : " + order)
+            if client_name == client:
+                self.server.send(self.client_list[client].ref, order)
+                break
+        else:
+            print("The client {} isn't connected to this head.".format(client_name))
     
     def send_to_cluster(self, cluster_name, order):
-        if cluster_name in self.cluster_list:
-            self.cluster_list[cluster_name].send(order)
+        for cluster in self.cluster_list:
+            if cluster_name == cluster:
+                for client in self.cluster_list[cluster].client_list:
+                    self.server.send(client.ref, order)
+            break
+        else:
+            print("There is no cluster named {} on this head.".format(cluster_name))
     
     def get_client_status(self, client_name):
         if client_name in self.client_list:
@@ -87,10 +95,6 @@ class Cluster:
             self.client_list.remove(client)
         else:
             print("The client {} is not in this cluster.".format(client.name))
-    
-    def send(self, order):
-        for client_name in self.client_list:
-            print("Sending to : " + self.client_list[client_name].ref + " order : " + order)
 
 class Client:
     def __init__(self, name, ref):
