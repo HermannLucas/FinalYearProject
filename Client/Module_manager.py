@@ -24,18 +24,24 @@ class PluginLoader():
 
 
 class Manager:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.set_status("Starting")
         self.module_list = {}
         self.pluginmanager = PluginLoader()
         for i in self.pluginmanager.getPlugins():
             print("Loading plugin " + i["name"])
-            plugin = self.pluginmanager.loadPlugin(i).run() 
+            plugin = self.pluginmanager.loadPlugin(i).begin(self) 
             self.module_list[plugin.name] = plugin
         self.set_status("Waiting")
     
     def execute_order(self, order):
-        order.execute()
+        for module_name in self.module_list:
+            if order.target == module_name:
+                order.execute(self.module_list[module_name])
+                break
+        else:
+            print("The module {} isn't present on this client.".format(order.target))
     
     def list_modules(self):
         names = None
@@ -53,3 +59,6 @@ class Manager:
     
     def get_status(self):
         return status
+    
+    def send(self, order):
+        self.head.send(order)

@@ -40,7 +40,9 @@ class Starter:
             client.listen(conn[0], conn[1])
         
         module_manager = SingletonDecorator(Manager)
-        mod_man = module_manager()
+        mod_man = module_manager(self.name)
+        mod_man.head = ord_dir
+        
     
         
         if "config" in args:

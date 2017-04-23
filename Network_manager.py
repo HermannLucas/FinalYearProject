@@ -15,7 +15,7 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def send(self, client, order):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.connect((client))
-            sock.sendall(bytes(order, 'ascii'))
+            sock.sendall(bytes(order, ''))
 
 class Client:
     

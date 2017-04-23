@@ -53,7 +53,10 @@ class Order_director:
         else:
             print("The cluster {} doesn't exists.".format(cluster))
     
-    def send(self, client_name, order):
+    def send(self, order):
+        self.send_to_client("toto", order)
+        
+    def send_to_client(self, client_name, order):
         for client in self.client_list:
             if client_name == client:
                 self.server.send(self.client_list[client].ref, order)

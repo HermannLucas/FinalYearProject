@@ -15,5 +15,5 @@ class Concrete_interface(Abstract_interface):
     def stop(self):
         print("Plugin {} is now stopped.".format(self.name))
 
-def run():
+def begin(mod_man):
 	return Concrete_interface()

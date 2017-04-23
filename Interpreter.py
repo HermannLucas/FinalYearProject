@@ -67,9 +67,9 @@ class Prompter(Cmd):
             for client in self.ord_dir.client_list:
                 self.ord_dir.get_client_status(client)
     
-    def do_module(self, arg):
+    def do_module(self, args):
         "To intereact with the selected module"
-        pass
+        self.mod_man.module_list["Demonstration_plugin"].demo()
     
     def do_exit(self, arg):
         "Exit the program."
@@ -86,7 +86,7 @@ class Prompter(Cmd):
             print("***Invalid number of arguments")
             return        
         if args[0] in self.ord_dir.client_list:
-            self.ord_dir.send(args[0], args[1])
+            self.ord_dir.send_to_client(args[0], args[1])
     
     def do_send_cluster(self, args):
         args = args.split()
