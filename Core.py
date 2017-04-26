@@ -26,6 +26,9 @@ class Starter:
         else:
             self.name = socket.gethostname()
         
+        module_manager = SingletonDecorator(Manager)
+        mod_man = module_manager(self.name)
+        
         if args["Head"]:
             order_director = SingletonDecorator(Order_director)
             ord_dir = order_director()
@@ -36,13 +39,11 @@ class Starter:
             server_thread.start()
             ord_dir.server = server
         else:
-            client = Client()
+            client = Client(mod_man)
             conn = client.connect(HOST, PORT, self.name)
             print(conn)
             client.listen(conn[0], conn[1])
-        
-        module_manager = SingletonDecorator(Manager)
-        mod_man = module_manager(self.name)
+            
         mod_man.head = ord_dir
         
     

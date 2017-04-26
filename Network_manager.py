@@ -18,6 +18,8 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
             sock.sendall(order)
 
 class Client:
+    def __init__(self, mod_man):
+        self.mod_man = mod_man
     
     def connect(self, ip, port, name):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -29,15 +31,17 @@ class Client:
 
     def listen(self, ip, port):
         with socketserver.TCPServer((ip, port),  Client_TCP_handler) as server:
+            print(self)
+            server.client = self
             server.serve_forever()
     
 class Client_TCP_handler(socketserver.BaseRequestHandler):
     
     def handle(self):
         data = self.request.recv(1024)
-        print(data)
+        print(self.server)
         print("Got contacted from {}.".format(self.client_address[0]))
-        print(data)
+        self.server.client.mod_man.execute_order(data)
     
 #    def __init__(self, ord_dir):
 #        super(Reciever_manager, self).__init__()

@@ -37,6 +37,7 @@ class Manager:
         self.set_status("Waiting")
     
     def execute_order(self, order):
+        order = pickle.loads(order)
         for module_name in self.module_list:
             if order.target == module_name:
                 order.execute(self.module_list[module_name])
