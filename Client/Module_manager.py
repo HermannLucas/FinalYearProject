@@ -1,5 +1,6 @@
 import imp
 import os
+import pickle
 
 global status
 
@@ -61,4 +62,5 @@ class Manager:
         return status
     
     def send(self, order):
+        order = pickle.dumps(order)
         self.head.send(order)

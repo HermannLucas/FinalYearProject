@@ -15,7 +15,7 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def send(self, client, order):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.connect((client))
-            sock.sendall(bytes(order, ''))
+            sock.sendall(order)
 
 class Client:
     
@@ -34,7 +34,8 @@ class Client:
 class Client_TCP_handler(socketserver.BaseRequestHandler):
     
     def handle(self):
-        data = str(self.request.recv(1024), 'ascii')
+        data = self.request.recv(1024)
+        print(data)
         print("Got contacted from {}.".format(self.client_address[0]))
         print(data)
     

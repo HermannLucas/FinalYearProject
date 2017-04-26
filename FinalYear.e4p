@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project FinalYear -->
-<!-- Saved: 2017-04-19, 15:22:29 -->
+<!-- Saved: 2017-04-23, 13:20:12 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -15,8 +15,9 @@
   <Sources>
     <Source>Client/Module_interface.py</Source>
     <Source>Client/Module_manager.py</Source>
+    <Source>Client/Modules/DemoPlugin/interface.py</Source>
+    <Source>Client/Modules/FakePlugin/interface.py</Source>
     <Source>Client/Modules/__init__.py</Source>
-    <Source>Client/Modules/helloPlugin/interface.py</Source>
     <Source>Client/__init__.py</Source>
     <Source>Core.py</Source>
     <Source>Head.py</Source>

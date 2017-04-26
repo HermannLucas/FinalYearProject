@@ -5,6 +5,8 @@ from Interpreter import Prompter
 from Head import Order_director
 from Client.Module_manager import Manager
 
+class Order:
+    pass
 
 class SingletonDecorator:
     def __init__(self, klass):

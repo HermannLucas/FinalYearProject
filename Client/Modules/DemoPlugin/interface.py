@@ -1,3 +1,4 @@
+import pickle
 from Client.Module_interface import Abstract_interface, Abstract_Order
 
 class Demo_interface(Abstract_interface):
@@ -21,6 +22,7 @@ class Demo_interface(Abstract_interface):
     
     def demo(self):
         order = Order()
+        order = pickle.dumps(order)
         self.mod_man.send(order)
 
 class Order(Abstract_Order):
