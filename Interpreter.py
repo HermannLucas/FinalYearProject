@@ -9,11 +9,18 @@ class Prompter(Cmd):
     prompt = "->"
     
     def do_connect_client(self, arg):
-        "Connects a new client to this head (<client_name> <client_reference>"
+        "Connects a new client to this head (<client_name>)"
         if arg in self.server.clients:
             client = self.server.clients[arg]
             print(client)
             self.ord_dir.set_client(arg, client)
+    
+    def do_disconnect_client(self, arg):
+        "Disconnects the selected client to this head (<client_name>)"
+        if arg in self.server.clients:
+            client = self.server.clients[arg]
+            print(client)
+            self.ord_dir.del_client(arg, client)
     
     def do_create_cluster(self, args):
         "Create a new cluster (<clster_name>)"
@@ -23,6 +30,14 @@ class Prompter(Cmd):
             return
         self.ord_dir.set_cluster(args[0])
     
+    def do_delette_cluster(self, args):
+        "Delette the selected cluster (<clster_name>)"
+        args = args.split()
+        if len(args) != 1:
+            print ("*** invalid number of arguments")
+            return
+        self.ord_dir.del_cluster(args[0])
+
     def do_add_client_to_cluster(self, args):
         "Add the selected client to the selected cluster (<cluster> <client>)"
         args = args.split()
@@ -30,6 +45,14 @@ class Prompter(Cmd):
             print("*** Invalid number of arguments")
             return
         self.ord_dir.add_client_in_cluster(args[0], args[1])
+    
+    def do_remove_client_from_cluster(self, args):
+        "remove the selected client from the selected cluster (<cluster> <client>)"
+        args = args.split()
+        if len(args) != 2:
+            print("*** Invalid number of arguments")
+            return
+        self.ord_dir.del_client_in_cluster(args[0], args[1])
     
     def do_list_modules(self, arg):
         "List installed modules."
@@ -67,7 +90,7 @@ class Prompter(Cmd):
             for client in self.ord_dir.client_list:
                 self.ord_dir.get_client_status(client)
     
-    def do_module(self, args):
+    def do_demo_module(self, args):
         "To intereact with the selected module"
         self.mod_man.module_list["Demonstration_plugin"].demo()
     
@@ -95,8 +118,3 @@ class Prompter(Cmd):
             return
         if args[0] in self.ord_dir.cluster_list:
             self.ord_dir.send_to_cluster(args[0], args[1])
-    
-#        arg = arg.split(' ')
-#        for element in arg:
-#            print(element)
-#        print("These are your arguments : {}".format(arg))
