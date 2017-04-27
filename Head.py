@@ -54,7 +54,14 @@ class Order_director:
             print("The cluster {} doesn't exists.".format(cluster))
     
     def send(self, order):
-        self.send_to_client("toto", order)
+        target = input("Please enter the destination(s) :\n")
+        target = target.split()
+        if target[0] == "cluster":
+            for i in range(1, target.len()):
+                self. send_to_cluster(target[i], order)
+        elif target[0] == "client":
+            for i in range(1, len(target)):
+                self.send_to_client(target[i], order)
         
     def send_to_client(self, client_name, order):
         for client in self.client_list:
