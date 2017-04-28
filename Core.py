@@ -4,6 +4,7 @@ from Network_manager import ThreadedTCPServer, ThreadedTCPRequestHandler, Client
 from Interpreter import Prompter
 from Head import Order_director
 from Client.Module_manager import Manager
+from Client.Serv import Nameserv_putter
 
 class Order:
     pass
@@ -19,8 +20,22 @@ class SingletonDecorator:
 
 class Starter:
     def __init__(self, args):
+<<<<<<< HEAD
         HOST, PORT = "localhost", 1050
 
+=======
+        self.type = "Client"
+        if args["Head"]:
+            self.order_director = SingletonDecorator(Order_director)
+            self.ord_dir = self.order_director()
+            self.head = True
+        
+        self.module_manager = SingletonDecorator(Manager)
+        self.mod_man = self.module_manager()
+        putter = Nameserv_putter(self.mod_man)
+        putter.run()
+        
+>>>>>>> 073ad5a7bbed3a6de19eec662174d030475dda9e
         if "name" in args:
             self.name = args["name"]
         else:

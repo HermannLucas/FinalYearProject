@@ -2,12 +2,18 @@ from cmd import Cmd
 
 class Prompter(Cmd):
     
+<<<<<<< HEAD
     def __init__(self):
+=======
+    def __init__(self, core):
+        self.core = core
+>>>>>>> 073ad5a7bbed3a6de19eec662174d030475dda9e
         super(Prompter, self).__init__()
 
     intro = "Welcome to my shell.       Type help or ? to list commands.\n"
     prompt = "->"
     
+<<<<<<< HEAD
     def do_connect_client(self, arg):
         "Connects a new client to this head (<client_name>)"
         if arg in self.server.clients:
@@ -21,6 +27,15 @@ class Prompter(Cmd):
             client = self.server.clients[arg]
             print(client)
             self.ord_dir.del_client(arg, client)
+=======
+    def do_connect_client(self, args):
+        "Connects a new client to this head (<client_name> <client_reference>"
+        args = args.split()
+        if len(args) != 2:
+            print("*** invalid number of arguments")
+            return
+        self.core.ord_dir.set_client(args[0], args[1])
+>>>>>>> 073ad5a7bbed3a6de19eec662174d030475dda9e
     
     def do_create_cluster(self, args):
         "Create a new cluster (<clster_name>)"
@@ -28,6 +43,7 @@ class Prompter(Cmd):
         if len(args) != 1:
             print ("*** invalid number of arguments")
             return
+<<<<<<< HEAD
         self.ord_dir.set_cluster(args[0])
     
     def do_delette_cluster(self, args):
@@ -38,12 +54,17 @@ class Prompter(Cmd):
             return
         self.ord_dir.del_cluster(args[0])
 
+=======
+        self.core.ord_dir.set_cluster(args[0])
+    
+>>>>>>> 073ad5a7bbed3a6de19eec662174d030475dda9e
     def do_add_client_to_cluster(self, args):
         "Add the selected client to the selected cluster (<cluster> <client>)"
         args = args.split()
         if len(args) != 2:
             print("*** Invalid number of arguments")
             return
+<<<<<<< HEAD
         self.ord_dir.add_client_in_cluster(args[0], args[1])
     
     def do_remove_client_from_cluster(self, args):
@@ -53,6 +74,9 @@ class Prompter(Cmd):
             print("*** Invalid number of arguments")
             return
         self.ord_dir.del_client_in_cluster(args[0], args[1])
+=======
+        self.core.ord_dir.add_client_in_cluster(args[0], args[1])
+>>>>>>> 073ad5a7bbed3a6de19eec662174d030475dda9e
     
     def do_list_modules(self, arg):
         "List installed modules."
@@ -70,8 +94,13 @@ class Prompter(Cmd):
     
     def do_list_cluster_clients(self, arg):
         "List all the clients in the selected cluster."
+<<<<<<< HEAD
         if arg in self.ord_dir.cluster_list:
             for client in self.ord_dir.list_client_in_cluster(arg):
+=======
+        if arg in self.core.ord_dir.cluster_list:
+            for client in self.core.ord_dir.list_client_in_cluster(arg):
+>>>>>>> 073ad5a7bbed3a6de19eec662174d030475dda9e
                 print(client.name)
     
     def do_get_client_status(self, arg):
